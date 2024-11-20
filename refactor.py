@@ -1,5 +1,4 @@
 MAX = 100
-
 def calculate_sum(arr):
     return sum(arr)
 
