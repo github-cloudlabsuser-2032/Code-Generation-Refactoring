@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+</head>
+<body>
+    <h1>Weather App</h1>
+    <input type="text" id="city" placeholder="Enter city name">
+    <button onclick="getWeather()">Get Weather</button>
+    <div id="weather"></div>
+
+    <script>
+        async function getWeather() {
+            const city = document.getElementById('city').value;
+            if (!city) {
+                alert('Please enter a city name');
+                return;
+            }
+
+            try {
+                const response = await fetch(`/weather?city=${city}`);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                document.getElementById('weather').innerHTML = `
+                    <p>City: ${data.city}</p>
+                    <p>Temperature: ${data.temperature}°C</p>
+                    <p>Weather: ${data.weather}</p>
+                    <p>Humidity: ${data.humidity}%</p>
+                    <p>Pressure: ${data.pressure} hPa</p>
+                `;
+            } catch (error) {
+                console.error('There has been a problem with your fetch operation:', error);
+                document.getElementById('weather').innerHTML = `<p>Error fetching weather data</p>`;
+            }
+        }
+    </script>
+</body>
+</html>
